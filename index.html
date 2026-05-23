@@ -1,16 +1,20 @@
 <!--
-حط ملف الموسيقى باسم:
+
+PUT YOUR MUSIC FILE HERE:
+
 music.mp3
 
-في نفس فولدر ملف الـ HTML
+same folder as this html file
+
 -->
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Countdown</title>
 
@@ -22,7 +26,8 @@ music.mp3
     box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
     width:100%;
     min-height:100%;
 }
@@ -31,8 +36,10 @@ body{
 
     font-family:Arial,sans-serif;
 
+    overflow:hidden;
+
     background:
-    radial-gradient(circle at top,#111827 0%,#020617 45%,#000 100%);
+    radial-gradient(circle at top,#111827 0%,#020617 50%,#000 100%);
 
     color:white;
 
@@ -42,12 +49,10 @@ body{
 
     padding:20px;
 
-    overflow-x:hidden;
-
     position:relative;
 }
 
-/* glow */
+/* background glow */
 
 body::before{
 
@@ -55,33 +60,29 @@ body::before{
 
     position:fixed;
 
-    width:450px;
-    height:450px;
+    width:500px;
+    height:500px;
 
     background:#00ff88;
 
-    filter:blur(170px);
+    border-radius:50%;
+
+    filter:blur(180px);
 
     opacity:.10;
 
-    border-radius:50%;
-
-    top:-180px;
-
+    top:-220px;
     left:50%;
 
     transform:translateX(-50%);
 }
 
-/* main card */
+/* container */
 
 .container{
 
     width:100%;
-
-    max-width:900px;
-
-    margin:auto;
+    max-width:950px;
 
     background:rgba(255,255,255,.05);
 
@@ -91,28 +92,28 @@ body::before{
 
     border-radius:32px;
 
-    padding:30px 18px;
+    padding:35px 20px;
 
     text-align:center;
 
     box-shadow:
-    0 0 40px rgba(0,0,0,.45),
+    0 0 40px rgba(0,0,0,.5),
     inset 0 0 20px rgba(255,255,255,.03);
 
-    position:relative;
+    z-index:2;
 
-    z-index:1;
+    transition:opacity 1.5s, transform 1.5s;
 }
+
+/* title */
 
 .title{
 
-    font-size:clamp(2rem,6vw,3.3rem);
+    font-size:clamp(2rem,6vw,4rem);
 
     font-weight:800;
 
-    line-height:1.2;
-
-    margin-bottom:10px;
+    margin-bottom:12px;
 
     background:linear-gradient(to right,#00ff88,#00d9ff);
 
@@ -128,26 +129,20 @@ body::before{
     margin-bottom:35px;
 
     font-size:1rem;
-
-    line-height:1.5;
 }
 
 /* countdown */
 
 .countdown{
 
-    width:100%;
-
     display:grid;
 
-    grid-template-columns:repeat(4,minmax(0,1fr));
+    grid-template-columns:repeat(4,1fr);
 
     gap:15px;
 }
 
 .card{
-
-    width:100%;
 
     background:rgba(255,255,255,.05);
 
@@ -155,34 +150,30 @@ body::before{
 
     border-radius:24px;
 
-    padding:20px 10px;
+    padding:25px 10px;
 
     transition:.25s;
 }
 
 .card:hover{
 
-    transform:translateY(-4px);
+    transform:translateY(-5px);
 
     background:rgba(255,255,255,.08);
 }
 
 .number{
 
-    font-size:clamp(2.2rem,7vw,4rem);
+    font-size:clamp(2.4rem,7vw,4.5rem);
 
     font-weight:800;
 
     color:#00ff88;
-
-    line-height:1;
 }
 
 .label{
 
     margin-top:10px;
-
-    font-size:.92rem;
 
     color:#cbd5e1;
 
@@ -204,8 +195,6 @@ body::before{
 
 .extra{
 
-    width:100%;
-
     background:rgba(255,255,255,.05);
 
     border:1px solid rgba(255,255,255,.07);
@@ -215,35 +204,29 @@ body::before{
     padding:15px;
 
     color:#00ff88;
-
-    font-size:.98rem;
-
-    word-break:break-word;
 }
 
 /* footer */
 
 .footer{
 
-    margin-top:25px;
+    margin-top:30px;
 
     color:#94a3b8;
 
     font-size:.9rem;
 }
 
-/* music bubble */
+/* music button */
 
 .music-btn{
 
     position:fixed;
 
     right:18px;
-
     bottom:18px;
 
     width:65px;
-
     height:65px;
 
     border:none;
@@ -256,15 +239,15 @@ body::before{
 
     color:#00ff88;
 
-    font-size:1.4rem;
+    font-size:1.5rem;
 
     cursor:pointer;
 
-    box-shadow:0 0 25px rgba(0,255,136,.22);
-
-    z-index:999;
+    box-shadow:0 0 25px rgba(0,255,136,.25);
 
     transition:.25s;
+
+    z-index:999;
 }
 
 .music-btn:hover{
@@ -272,58 +255,217 @@ body::before{
     transform:scale(1.08);
 }
 
+/* ending screen */
+
+.end-screen{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none; /* hidden by default, shown via JS */
+
+    justify-content:center;
+    align-items:center;
+
+    flex-direction:column;
+
+    text-align:center;
+
+    padding:30px;
+
+    background:
+    radial-gradient(circle at top,#0f172a 0%,#020617 55%,#000 100%);
+
+    animation:bgPulse 5s infinite alternate;
+
+    overflow:hidden;
+
+    z-index:100;
+}
+
+.end-screen.visible{
+
+    display:flex;
+}
+
+@keyframes bgPulse{
+
+    from{
+        filter:brightness(1);
+    }
+
+    to{
+        filter:brightness(1.15);
+    }
+}
+
+/* particles */
+
+.particles{
+
+    position:absolute;
+
+    inset:0;
+
+    overflow:hidden;
+}
+
+.particle{
+
+    position:absolute;
+
+    width:4px;
+    height:4px;
+
+    background:#00ff88;
+
+    border-radius:50%;
+
+    opacity:.7;
+
+    animation:rise linear infinite;
+}
+
+@keyframes rise{
+
+    from{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+
+/* message */
+
+.message{
+
+    max-width:900px;
+
+    z-index:2;
+}
+
+.line{
+
+    opacity:0;
+
+    transform:translateY(30px);
+
+    margin:20px 0;
+
+    line-height:1.6;
+}
+
+/* When end screen is shown immediately (on refresh after finish),
+   skip animations and show everything at once */
+
+.end-screen.no-anim .line{
+
+    opacity:1;
+
+    transform:none;
+
+    animation:none !important;
+}
+
+/* When end screen plays for the first time, animate lines in */
+
+.end-screen.animate .line{
+
+    animation:show 1s forwards;
+}
+
+@keyframes show{
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.end-screen.animate .line1{ animation-delay:.5s; }
+.end-screen.animate .line2{ animation-delay:3s; }
+.end-screen.animate .line3{ animation-delay:6s; }
+.end-screen.animate .line4{ animation-delay:10s; }
+.end-screen.animate .line5{ animation-delay:14s; }
+.end-screen.animate .line6{ animation-delay:18s; }
+
+.line1{
+
+    font-size:clamp(2rem,7vw,4.5rem);
+
+    font-weight:800;
+
+    color:#00ff88;
+}
+
+.line2{
+
+    font-size:1.6rem;
+
+    color:#e2e8f0;
+}
+
+.line3{
+
+    font-size:1.2rem;
+
+    color:#cbd5e1;
+}
+
+.line4{
+
+    font-size:1.5rem;
+}
+
+.line5{
+
+    font-size:1.2rem;
+
+    color:#94a3b8;
+}
+
+.line6{
+
+    font-size:2rem;
+
+    font-weight:bold;
+
+    color:#00ff88;
+}
+
 /* mobile */
 
 @media(max-width:700px){
 
-    body{
-        padding:14px;
-    }
-
-    .container{
-
-        padding:25px 14px;
-
-        border-radius:26px;
-    }
-
     .countdown{
 
         grid-template-columns:repeat(2,1fr);
-
-        gap:12px;
-    }
-
-    .card{
-
-        padding:18px 8px;
     }
 
     .number{
 
-        font-size:2.7rem;
-    }
-}
-
-@media(max-width:380px){
-
-    .number{
-
-        font-size:2.2rem;
-    }
-
-    .label{
-
-        font-size:.8rem;
+        font-size:3rem;
     }
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<!-- MAIN COUNTDOWN -->
+
+<div class="container" id="mainContainer">
 
     <h1 class="title">
         Countdown to 24 May 2026
@@ -379,13 +521,57 @@ body::before{
 
 </div>
 
-<!-- audio -->
+<!-- END SCREEN — always in DOM, shown/hidden via class -->
+
+<div class="end-screen" id="endScreen">
+
+    <div class="particles" id="particlesContainer"></div>
+
+    <div class="message">
+
+        <div class="line line1">
+            And just like that...
+            Second Secondary is over.
+        </div>
+
+        <div class="line line2">
+            I, Yusuf Bassem, survived it somehow.
+        </div>
+
+        <div class="line line3">
+            To every person I laughed with,
+            studied with, fought with,
+            copied homework from,
+            or annoyed daily...
+        </div>
+
+        <div class="line line4">
+            I hope every one of you
+            builds an amazing life.
+        </div>
+
+        <div class="line line5">
+            And don't forget...
+            one day these stressful days
+            will become memories
+            we laugh about.
+        </div>
+
+        <div class="line line6">
+            Goodbye, Second Secondary ❤️
+        </div>
+
+    </div>
+
+</div>
+
+<!-- music -->
 
 <audio id="bgMusic" loop playsinline>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- bubble -->
+<!-- button -->
 
 <button class="music-btn" id="musicBtn">
     🔊
@@ -393,18 +579,29 @@ body::before{
 
 <script>
 
-const audio = document.getElementById("bgMusic");
+/* ── PARTICLES ── */
 
+function buildParticles(){
+
+    const container = document.getElementById("particlesContainer");
+
+    container.innerHTML = Array.from({length:70}).map(() => `
+        <div class="particle" style="
+            left:${Math.random()*100}%;
+            animation-duration:${5 + Math.random()*7}s;
+            animation-delay:${Math.random()*5}s;
+        "></div>
+    `).join("");
+}
+
+/* ── MUSIC ── */
+
+const audio    = document.getElementById("bgMusic");
 const musicBtn = document.getElementById("musicBtn");
 
 let playing = false;
 
-/*
-حل مشكلة autoplay في الموبايل
-بيشتغل أول interaction مباشرة
-*/
-
-const startMusic = async () => {
+async function startMusic(){
 
     if(playing) return;
 
@@ -420,98 +617,120 @@ const startMusic = async () => {
 
         console.log("Autoplay blocked");
     }
-};
+}
 
-/* أول touch أو click */
+document.addEventListener("click",   startMusic, {once:true});
+document.addEventListener("touchstart", startMusic, {once:true});
 
-document.addEventListener("click",startMusic,{once:true});
+musicBtn.addEventListener("click", () => {
 
-document.addEventListener("touchstart",startMusic,{once:true});
+    if(!playing) startMusic();
 
-/* mute */
-
-musicBtn.addEventListener("click",() => {
-
-    if(!playing){
-
-        startMusic();
-    }
-
-    audio.muted = !audio.muted;
-
+    audio.muted    = !audio.muted;
     musicBtn.innerHTML = audio.muted ? "🔇" : "🔊";
 });
 
-/* countdown */
+/* ── SHOW END SCREEN ── */
+
+/*
+   animate = true  → first-time reveal with staggered text animation
+   animate = false → instant reveal on refresh (no animation delays)
+*/
+
+function showEndScreen(animate){
+
+    buildParticles();
+
+    const endScreen     = document.getElementById("endScreen");
+    const mainContainer = document.getElementById("mainContainer");
+
+    if(animate){
+
+        /* fade out countdown first */
+        mainContainer.style.opacity   = "0";
+        mainContainer.style.transform = "scale(.95) translateY(20px)";
+        musicBtn.style.opacity        = "0";
+
+        setTimeout(() => {
+
+            mainContainer.style.display = "none";
+            musicBtn.style.display      = "none";
+
+            endScreen.classList.add("visible","animate");
+
+        }, 1500);
+
+    }else{
+
+        /* instant — show everything right away */
+        mainContainer.style.display = "none";
+        musicBtn.style.display      = "none";
+
+        endScreen.classList.add("visible","no-anim");
+    }
+}
+
+/* ── COUNTDOWN ── */
+
+let interval;
 
 function countdown(){
 
     const targetDate = new Date("2026-05-24T14:30:00");
 
-    const now = new Date();
+    const now  = new Date();
 
     const diff = targetDate - now;
 
     if(diff <= 0){
 
-        document.body.innerHTML = `
-        <div style="
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            width:100%;
-            min-height:100vh;
-            text-align:center;
-            font-family:Arial;
-            color:white;
-        ">
-            <h1 style="
-                font-size:3rem;
-                color:#00ff88;
-            ">
-                🎉 Time's Up!
-            </h1>
-        </div>
-        `;
+        clearInterval(interval);
+
+        /* mark as finished forever */
+        localStorage.setItem("countdownFinished","true");
+
+        showEndScreen(true);
 
         return;
     }
 
     const totalSeconds = Math.floor(diff / 1000);
-
     const totalMinutes = Math.floor(totalSeconds / 60);
+    const totalHours   = Math.floor(totalMinutes / 60);
 
-    const totalHours = Math.floor(totalMinutes / 60);
-
-    const days = Math.floor(totalSeconds / (60 * 60 * 24));
-
-    const hours = Math.floor((totalSeconds / (60 * 60)) % 24);
-
+    const days    = Math.floor(totalSeconds / (60*60*24));
+    const hours   = Math.floor((totalSeconds / (60*60)) % 24);
     const minutes = Math.floor((totalSeconds / 60) % 60);
-
     const seconds = totalSeconds % 60;
 
-    document.getElementById("days").textContent = days;
-
-    document.getElementById("hours").textContent = hours;
-
+    document.getElementById("days").textContent    = days;
+    document.getElementById("hours").textContent   = hours;
     document.getElementById("minutes").textContent = minutes;
-
     document.getElementById("seconds").textContent = seconds;
 
     document.getElementById("total-seconds").textContent =
-    `Total Seconds Remaining: ${totalSeconds.toLocaleString()}`;
+        "Total Seconds Remaining: " + totalSeconds.toLocaleString();
 
     document.getElementById("total-minutes").textContent =
-    `Total Minutes Remaining: ${totalMinutes.toLocaleString()}`;
+        "Total Minutes Remaining: " + totalMinutes.toLocaleString();
 
     document.getElementById("total-hours").textContent =
-    `Total Hours Remaining: ${totalHours.toLocaleString()}`;
+        "Total Hours Remaining: " + totalHours.toLocaleString();
 }
 
-countdown();
+/* ── INIT ── */
 
-setInterval(countdown,1000);
+if(localStorage.getItem("countdownFinished") === "true"){
+
+    /* already finished — show end screen instantly, no animation */
+    showEndScreen(false);
+
+}else{
+
+    countdown();
+
+    interval = setInterval(countdown, 1000);
+}
 
 </script>
 
